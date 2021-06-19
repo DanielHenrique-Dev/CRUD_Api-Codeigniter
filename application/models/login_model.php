@@ -4,14 +4,14 @@ class Login_model extends CI_Model
 {
 	public function login($email_user, $password)
 	{ 
-		$this->db->where("email", $email_user);
-		$this->db->where("password", $password);
-		$user = $this->db->get_where("tb_users")->row();		
+		$user = $this->db->query('SELECT * FROM `tb_users` WHERE email = ? AND password = ?', array($email_user, $password))
+						 ->row(0);		
 		
 		if($user == " "){
 
 			return array('status' => 204, 'message' => 'Username not found');
 		} else {
+
 			$senha = $user->password;
 			$email = $user->email;
 			$user_id = $user->id;
@@ -20,7 +20,7 @@ class Login_model extends CI_Model
 			$token = substr( md5(rand()), 0, 7);
 			$expired_at = date('Y-m-d H:i:s', strtotime('+12 hours'));
 			$this->db->trans_start();
-			$this->db->where('email',$email)->update('tb_users',array('last_login', $last_login));
+			$this->db->where('email',$email)->update('tb_users',array('last_login' => $last_login));
 			$this->db->insert('tb_token', array('user_id' => $user_id, 'token' => $token, 'dt_expired' => $expired_at));
 
 			if($this->db->trans_status() == FALSE){

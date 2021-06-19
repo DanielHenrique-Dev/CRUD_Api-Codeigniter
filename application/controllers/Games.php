@@ -8,6 +8,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         parent::__construct();
 
         $this->load->model('games_model');
+        $this->load->model('login_model');
     }
 
     public function index()
@@ -33,6 +34,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             json_output(400, array('status' => 400, 'message' => 'Bad request.'));
         } else {
 
+            $check_token = $this->login_model->aut();
             $response['status'] = 200;
             $resp = $this->games_model->show($id);
             json_output($response['status'], $resp);

@@ -18,15 +18,14 @@ class Login extends CI_Controller{
 
             json_output(400, array('status' => 400, 'message' => 'Bad request'));
         } else {
-
-            $params = $_REQUEST;
+            
+            $params = json_decode(file_get_contents('php://input'), TRUE);;
             
             $email = $params['email'];
             $senha = $params['senha'];
 
             $response = $this->login_model->login($email, $senha);
             json_output($response['status'], $response);
-
         }
     }
 
