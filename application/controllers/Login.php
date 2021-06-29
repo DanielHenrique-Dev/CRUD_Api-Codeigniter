@@ -22,9 +22,9 @@ class Login extends CI_Controller{
             $params = json_decode(file_get_contents('php://input'), TRUE);;
             
             $email = $params['email'];
-            $senha = $params['senha'];
+            $password = $params['password'];
 
-            $response = $this->login_model->login($email, $senha);
+            $response = $this->login_model->login($email, $password);
             json_output($response['status'], $response);
         }
     }

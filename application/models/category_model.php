@@ -21,28 +21,33 @@ class Category_model extends CI_model
     {
 
         $this->db->insert("tb_category", $category);
+        return array('status' => 201, 'message' => 'Categoria criada com sucesso!');
     }
+
     public function show($id_category)
     {
         return $this->db->get_where("tb_category", array(
             "id_category" => $id_category
         ))->row_array();
     }
+    
     public function update($id_category, $category)
     {
         $this->db->where("id_category", $id_category);
         $this->db->update("tb_category", $category);
+        return array('status' => 201, 'message' => 'Jogo atualizado com sucesso!');
     }
 
     // deletar a categoria selecionada
     public function delete($id)
     {
-        $del = $this->db->where("id_category", $id)
-            ->delete("tb_category");
+        $this->db->where("id_category", $id)
+                 ->delete("tb_category");
+        return array('status' => 201, 'message' => 'Jogo excluido com sucesso.');
     }
 
     //inserir categoria no jogo que esta sendo editado ou criado
-    public function insert_category()
+    public function insertCategory()
     {
         $query = $this->db->select('id_category')
             ->select('category')
@@ -70,7 +75,6 @@ class Category_model extends CI_model
 
     public function get_total()
     {
-
         return $this->db->count_all("tb_category");
     }
 

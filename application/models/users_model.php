@@ -2,9 +2,32 @@
 
 	class Users_model extends CI_model
 	{
+		public function index($limit, $start)
+		{
+			$this->db->order_by("name", "ASC");
+			$this->db->limit($limit, $start);
+
+			$query = $this->db->get("tb_users");
+
+			if ($query->num_rows() > 0) {
+				foreach ($query->result() as $row) {
+					$data[] = $row;
+				}
+				return $data;
+			}
+			return false;
+		}
+
+		public function index_usuarios($id)
+		{
+			$this->db->where('id', $id);
+			return $this->db->get('tb_users')->result_array();
+		}
 
 		public function dashboard_index()
 		{
+				   $this->db->limit(5);	
+				   $this->db->order_by('id', 'desc');
 			return $this->db->get("tb_users")->result_array();
 		}
 
@@ -36,6 +59,11 @@
 			$this->db->delete("tb_users");
 
 			return array('status' => 201, 'menssage' => 'Usuário excluido com sucesso.');
+		}
+
+		public function get_total()
+		{
+			return $this->db->count_all("tb_games");
 		}
 
 		

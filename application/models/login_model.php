@@ -15,6 +15,8 @@ class Login_model extends CI_Model
 			$senha = $user->password;
 			$email = $user->email;
 			$user_id = $user->id;
+			$ativo = $user->ativo;
+			$nivel = $user->nivel;
 
 			$last_login = date('Y-m-d H:i:s');
 			$token = substr( md5(rand()), 0, 7);
@@ -29,7 +31,7 @@ class Login_model extends CI_Model
 			} else {
 
 				$this->db->trans_commit();
-				return array('status' => 200, 'message' => 'Sucesso no login.', 'email' => $email, 'token' => $token);
+				return array('status' => 200, 'message' => 'Sucesso no login.', 'email' => $email, 'token' => $token, 'user_id' => $user_id, 'ativo' => $ativo, 'nivel' => $nivel);
 			}
 		}
 	}

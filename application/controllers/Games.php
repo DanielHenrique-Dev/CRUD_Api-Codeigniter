@@ -26,6 +26,76 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     }
 
+    public function gamesDashboard($limit, $start)
+    {
+        $method = $_SERVER['REQUEST_METHOD'];
+
+        if($method != 'GET') {
+            json_output(400, array('status' => 400, 'message' => 'Bad request.'));
+        } else {
+
+            $response['status'] = 200;
+            $resp = $this->games_model->index($limit, $start);
+            json_output($response['status'], $resp);
+        }
+    }
+
+    public function myGames($id, $limit, $start)
+    {
+        $method = $_SERVER['REQUEST_METHOD'];
+
+        if($method != 'GET') {
+            json_output(400, array('status' => 400, 'message' => 'Bad request.'));
+        } else {
+
+            $response['status'] = 200;
+            $resp = $this->games_model->mygames_index($id, $limit, $start);
+            json_output($response['status'], $resp);
+        }
+    }
+
+    public function gamesTotalRows()
+    {
+        $method = $_SERVER['REQUEST_METHOD'];
+
+        if($method != 'GET') {
+            json_output(400, array('status' => 400, 'message' => 'Bad request.'));
+        } else {
+
+            $response['status'] = 200;
+            $resp = $this->games_model->get_total();
+            json_output($response['status'], $resp);
+        }
+    }
+
+    public function myGamesTotalRows($id)
+    {
+        $method = $_SERVER['REQUEST_METHOD'];
+
+        if($method != 'GET') {
+            json_output(400, array('status' => 400, 'message' => 'Bad request.'));
+        } else {
+
+            $response['status'] = 200;
+            $resp = $this->games_model->number_games_by_id($id);
+            json_output($response['status'], $resp);
+        }
+    }
+
+    public function numberGames()
+    {
+        $method = $_SERVER['REQUEST_METHOD'];
+
+        if($method != 'GET') {
+            json_output(400, array('status' => 400, 'message' => 'Bad request.'));
+        } else { 
+
+            $response['status'] = 200;
+            $resp = $this->games_model->number_games();
+            json_output($response['status'], $resp);
+        }
+    }
+
     public function game($id)
     {
         $method = $_SERVER['REQUEST_METHOD'];

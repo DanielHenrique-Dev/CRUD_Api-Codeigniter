@@ -25,6 +25,34 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     }
 
+    public function usersDashboard($limit, $start)
+    {
+        $method = $_SERVER['REQUEST_METHOD'];
+
+        if($method != 'GET') {
+            json_output(400, array('status' => 400, 'message' => 'Bad request.'));
+        } else {
+
+            $response['status'] = 200;
+            $resp = $this->users_model->index($limit, $start);
+            json_output($response['status'], $resp);
+        }
+    }
+
+    public function usersTotalRows()
+    {
+        $method = $_SERVER['REQUEST_METHOD'];
+
+        if($method != 'GET') {
+            json_output(400, array('status' => 400, 'message' => 'Bad request.'));
+        } else {
+
+            $response['status'] = 200;
+            $resp = $this->users_model->get_total();
+            json_output($response['status'], $resp);
+        }
+    }
+
     public function user($id)
     {
         $method = $_SERVER['REQUEST_METHOD'];

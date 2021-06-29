@@ -19,7 +19,9 @@ class Games_model extends CI_model
 	}
 
 	public function dashboard_index()
-	{
+	{			
+			   $this->db->limit(5);
+			   $this->db->order_by('id', 'desc');
 		return $this->db->get("tb_games")->result();
 	}
 
@@ -52,9 +54,9 @@ class Games_model extends CI_model
 		return array('status' => 201, 'menssage' => 'Jogo excluido com sucesso.');
 	}
 
-	public function mygames_index($limit, $start)
+	public function mygames_index($id, $limit, $start)
 	{
-		$this->db->where("user_id", $this->session->logged_user['id']);
+		$this->db->where("user_id", $id);
 		$this->db->order_by("name", "ASC");
 		$this->db->limit($limit, $start);
 
@@ -71,14 +73,13 @@ class Games_model extends CI_model
 
 	public function get_total()
 	{
-
 		return $this->db->count_all("tb_games");
 	}
 
-	public function number_games_by_id()
+	public function number_games_by_id($id)
 	{
-		$this->db->where("user_id", $this->session->logged_user['id']);
-		return $this->db->get("tb_games")->num_rows();
+		$this->db->where("user_id", $id);
+		return $this->db->count_all("tb_games");
 	}
 
 	public function number_games()
